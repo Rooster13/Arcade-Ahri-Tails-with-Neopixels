@@ -38,40 +38,8 @@ void setup() {
 }
 
 void loop() {
-
-  if (digitalRead(selectorPin))
-    GAIN = 0.67;
-  else
-    GAIN = 1;
-    
-  rainbowCycle(20);
-}
-
-// Slightly different, this makes the rainbow equally distributed throughout
-void rainbowCycle(uint8_t wait) {
-  uint16_t i, j;
-
-  for(j=0; j<256*1; j++) { // 10 cycles of all colors on wheel
-    for(i=0; i< strip.numPixels(); i++) {
-      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) - j) & 255));
-    }
-    strip.show();
-    delay(wait);
+  for(i=0; i< strip.numPixels(); i++) {
+    strip.setPixelColor(255, 0 + (i * 204 / strip.numPixels()), 102 - (i * 102 / strip.numPixels()));
   }
-}
-
-
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
-uint32_t Wheel(byte WheelPos) {
-  WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
-    return strip.Color((255 - WheelPos * 3)*GAIN, 0, (WheelPos * 3)*GAIN);
-  }
-  if(WheelPos < 170) {
-    WheelPos -= 85;
-    return strip.Color(0, (WheelPos * 3)*GAIN, (255 - WheelPos * 3)*GAIN);
-  }
-  WheelPos -= 170;
-  return strip.Color((WheelPos * 3)*GAIN, (255 - WheelPos * 3)*GAIN, 0);
+  strip.show();
 }
